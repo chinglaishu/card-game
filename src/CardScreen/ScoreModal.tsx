@@ -6,8 +6,9 @@ import modal from "../styles/modal";
 import { vw, vh } from 'react-native-expo-viewport-units';
 import utilfunction from "../utils/utilfunction";
 import querymanager from '../utils/querymanager';
+import { AntDesign } from '@expo/vector-icons';
 
-const {ModalView} = modal;
+const {ModalView, ScoreRowView} = modal;
 const {TitleText, SubTitleText} = text;
 
 type ScoreModal = {
@@ -15,15 +16,22 @@ type ScoreModal = {
   setIsVisible: (isVisible: boolean) => void,
 }
 
+const getIconAndText = (icon: any, text: string) => {
+  return (
+    <View style={{flexDirection: "row", alignItems: "center"}}>
+      <AntDesign style={{marginRight: vw(1)}} name={icon} size={vh(2)} />
+      <Text style={{fontSize: vh(2)}}>{text}</Text>
+    </View>
+  );
+};
+
 const ScoreRow = ({name, score, index}: any) => {
   const backgroundColor = (index % 2 === 0) ? "#DADADA" : "#BCBCBC";
   return (
-    <View style={{height: 40, width: "100%", flexDirection: "row",
-      justifyContent: "space-between", backgroundColor, alignItems: "center",
-      paddingHorizontal: vw(3)}}>
-      <Text>{name}</Text>
-      <Text>{score}</Text>
-    </View>
+    <ScoreRowView style={{backgroundColor}}>
+      {getIconAndText("user", name)}
+      {getIconAndText("smileo", score)}
+    </ScoreRowView>
   );
 };
 
@@ -67,10 +75,11 @@ const ScoreModal = ({isVisible, setIsVisible}: ScoreModal) => {
   const sH = Dimensions.get("window").height;
   const sW = Dimensions.get("window").width;
   return (
-    <Modal isVisible={isVisible || false} style={{flex: 1,
-      justifyContent: "center"}} onBackButtonPress={() => setIsVisible(false)}
+    <Modal isVisible={isVisible || false} onBackButtonPress={() => setIsVisible(false)}
       animationIn="slideInUp" backdropTransitionOutTiming={0}
-      deviceHeight={sH} deviceWidth={sW}>
+      deviceHeight={sH} deviceWidth={sW}
+      onDismiss={() => setIsVisible(false)}
+      onBackdropPress={() => setIsVisible(false)}>
       <ModalView>
         <TitleText>Score</TitleText>
         <SubTitleText>{`Your Best Record: ${bestRecord}`}</SubTitleText>

@@ -11,6 +11,15 @@ const ModalView = styled.View(props => ({
   alignItems: "center",
 }));
 
-export default {ModalView};
+const ScoreRowView = styled.View(props => ({
+  height: vh(4),
+  width: "100%",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingHorizontal: vw(3)
+}));
+
+export default {ModalView, ScoreRowView};
 
 
